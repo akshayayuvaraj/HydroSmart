@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HydroSmart | Interactive</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #0a0a0a; color: white; overflow: hidden; }
+        .glow-cyan { text-shadow: 0 0 10px rgba(34, 211, 238, 0.5); }
+        
+        /* The Bottle Container */
+        .bottle-shell {
+            position: relative;
+            width: 180px;
+            height: 320px;
+            border-radius: 4rem;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            overflow: hidden; /* Clips the water inside */
+            background: rgba(255, 255, 255, 0.03);
+            box-shadow: 0 0 40px rgba(45, 212, 191, 0.1);
+        }
+
+        /* The Animated Water */
+        .water-fill {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            background: linear-gradient(180deg, #ffffff 0%, #2dd4bf 100%);
+            transition: height 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 0 30px rgba(45, 212, 191, 0.4);
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+
+    <nav class="flex justify-between items-center px-12 py-6">
+        <div class="text-emerald-400 font-bold text-xl tracking-tighter">HYDROSMART</div>
+        <button class="bg-cyan-500 hover:bg-cyan-400 text-black font-bold py-2 px-6 rounded-full text-sm transition">
+            Get the App
+        </button>
+    </nav>
+
+    <main class="flex-grow flex items-center px-12 lg:px-24">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center w-full">
+            
+            <div class="space-y-6">
+                <h1 class="text-6xl font-extrabold leading-tight">
+                    The Bottle that <br>
+                    <span class="text-cyan-400 glow-cyan">Heals You.</span>
+                </h1>
+                <p class="text-gray-400 text-lg max-w-md">
+                    Click the button to simulate drinking. Watch your hydration levels rise in real-time.
+                </p>
+                
+                <button onclick="drinkWater()" class="bg-cyan-500/10 border border-cyan-500/50 hover:bg-cyan-500/20 active:scale-95 text-cyan-300 py-3 px-8 rounded-full font-medium transition backdrop-blur-sm">
+                    Simulate 250ml Sip
+                </button>
+            </div>
+
+            <div class="relative flex flex-col items-center justify-center">
+                <!-- Bottle -->
+                <div class="bottle-shell mb-12">
+                    <div id="water" class="water-fill" style="height: 10%;"></div>
+                </div>
+                
+                <!-- Stats -->
+                <div class="flex space-x-8">
+                    <div class="text-center">
+                        <p class="text-[10px] text-gray-500 uppercase tracking-widest mb-1">Intake</p>
+                        <p class="font-bold text-lg"><span id="intake-display">250</span><span class="text-xs ml-1 font-normal text-gray-400">ml</span></p>
+                    </div>
+                    <div class="text-center border-x border-gray-800 px-8">
+                        <p class="text-[10px] text-gray-500 uppercase tracking-widest mb-1">Goal</p>
+                        <p class="font-bold text-lg">2000<span class="text-xs ml-1 font-normal text-gray-400">ml</span></p>
+                    </div>
+                    <div class="text-center">
+                        <p class="text-[10px] text-gray-500 uppercase tracking-widest mb-1">Status</p>
+                        <p id="status-display" class="font-bold text-lg text-orange-400">Dehydrated</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        let currentIntake = 250;
+        const goal = 2000;
+
+        function drinkWater() {
+            if (currentIntake < goal) {
+                currentIntake += 250;
+                updateUI();
+            }
+        }
+
+        function updateUI() {
+            // Calculate percentage
+            const percentage = (currentIntake / goal) * 100;
+            
+            // Update Water Height
+            document.getElementById('water').style.height = percentage + '%';
+            
+            // Update Text
+            document.getElementById('intake-display').innerText = currentIntake;
+            
+            // Update Status Color/Text
+            const status = document.getElementById('status-display');
+            if (currentIntake >= goal) {
+                status.innerText = "Hydrated";
+                status.className = "font-bold text-lg text-emerald-400";
+            } else if (currentIntake > 1000) {
+                status.innerText = "Improving";
+                status.className = "font-bold text-lg text-cyan-400";
+            }
+        }
+
+        // Initialize
+        updateUI();
+    </script>
+</body>
+</html>
