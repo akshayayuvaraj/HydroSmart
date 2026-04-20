@@ -3,121 +3,195 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HydroSmart | Interactive</title>
+    <title>HydroSmart | Premium Hydration</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;600;900&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Inter', sans-serif; background-color: #0a0a0a; color: white; overflow: hidden; }
-        .glow-cyan { text-shadow: 0 0 10px rgba(34, 211, 238, 0.5); }
-        
-        /* The Bottle Container */
-        .bottle-shell {
-            position: relative;
-            width: 180px;
-            height: 320px;
-            border-radius: 4rem;
-            border: 2px solid rgba(255, 255, 255, 0.1);
-            overflow: hidden; /* Clips the water inside */
-            background: rgba(255, 255, 255, 0.03);
-            box-shadow: 0 0 40px rgba(45, 212, 191, 0.1);
+        :root {
+            --primary: #2dd4bf;
+            --secondary: #0891b2;
+            --bg: #050505;
         }
 
-        /* The Animated Water */
-        .water-fill {
+        body {
+            font-family: 'Outfit', sans-serif;
+            background-color: var(--bg);
+            color: white;
+            overflow: hidden;
+            background: radial-gradient(circle at 50% 100%, #134e4a 0%, #050505 100%);
+        }
+
+        /* The Premium Bottle Artifact */
+        .bottle-frame {
+            position: relative;
+            width: 180px;
+            height: 340px;
+            background: linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0) 100%);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 70px;
+            backdrop-filter: blur(15px);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            overflow: hidden;
+        }
+
+        .liquid-core {
             position: absolute;
             bottom: 0;
+            left: 0;
             width: 100%;
-            background: linear-gradient(180deg, #ffffff 0%, #2dd4bf 100%);
-            transition: height 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 0 30px rgba(45, 212, 191, 0.4);
+            background: linear-gradient(180deg, var(--primary) 0%, var(--secondary) 100%);
+            transition: height 1s cubic-bezier(0.65, 0, 0.35, 1);
+            box-shadow: 0 0 40px rgba(45, 212, 191, 0.3);
+        }
+
+        /* Liquid Wave Animation */
+        .liquid-core::before {
+            content: "";
+            position: absolute;
+            top: -20px;
+            left: -50%;
+            width: 200%;
+            height: 40px;
+            background: var(--primary);
+            border-radius: 38%;
+            animation: slosh 6s infinite linear;
+        }
+
+        @keyframes slosh {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .btn-glow:hover {
+            box-shadow: 0 0 20px rgba(45, 212, 191, 0.4);
+            transform: translateY(-2px);
+        }
+        
+        .btn-glow:active { transform: scale(0.96); }
+
+        .glass-stat {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(10px);
         }
     </style>
 </head>
 <body class="min-h-screen flex flex-col">
 
-    <nav class="flex justify-between items-center px-12 py-6">
-        <div class="text-emerald-400 font-bold text-xl tracking-tighter">HYDROSMART</div>
-        <button class="bg-cyan-500 hover:bg-cyan-400 text-black font-bold py-2 px-6 rounded-full text-sm transition">
-            Get the App
+    <!-- Navigation -->
+    <nav class="flex justify-between items-center px-8 md:px-20 py-10">
+        <div class="font-black text-2xl tracking-tighter text-emerald-400">HYDROSMART</div>
+        <button class="bg-white text-black font-bold py-2 px-6 rounded-full text-xs uppercase tracking-widest hover:bg-emerald-400 transition-colors">
+            Get App
         </button>
     </nav>
 
-    <main class="flex-grow flex items-center px-12 lg:px-24">
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center w-full">
-            
-            <div class="space-y-6">
-                <h1 class="text-6xl font-extrabold leading-tight">
+    <main class="flex-grow container mx-auto px-6 grid lg:grid-cols-2 gap-12 items-center">
+        
+        <!-- Text Section -->
+        <div class="space-y-8">
+            <div class="space-y-2">
+                <p class="text-emerald-400 font-bold tracking-[0.4em] text-xs uppercase">Intelligent Wellness</p>
+                <h1 class="text-6xl md:text-8xl font-black leading-[0.9]">
                     The Bottle that <br>
-                    <span class="text-cyan-400 glow-cyan">Heals You.</span>
+                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-300 to-cyan-500">Heals You.</span>
                 </h1>
-                <p class="text-gray-400 text-lg max-w-md">
-                    Click the button to simulate drinking. Watch your hydration levels rise in real-time.
-                </p>
-                
-                <button onclick="drinkWater()" class="bg-cyan-500/10 border border-cyan-500/50 hover:bg-cyan-500/20 active:scale-95 text-cyan-300 py-3 px-8 rounded-full font-medium transition backdrop-blur-sm">
-                    Simulate 250ml Sip
-                </button>
             </div>
 
-            <div class="relative flex flex-col items-center justify-center">
-                <!-- Bottle -->
-                <div class="bottle-shell mb-12">
-                    <div id="water" class="water-fill" style="height: 10%;"></div>
+            <p class="text-gray-400 text-lg max-w-md leading-relaxed">
+                Experience the world's most advanced hydration system. Precision tracking that resets once you reach your daily peak.
+            </p>
+            
+            <button id="action-btn" onclick="sipWater()" class="btn-glow bg-emerald-500 text-black py-4 px-12 rounded-2xl font-black uppercase tracking-widest transition-all">
+                Simulate 250ml Sip
+            </button>
+        </div>
+
+        <!-- Bottle Section -->
+        <div class="flex flex-col items-center">
+            <div class="bottle-frame">
+                <div id="liquid" class="liquid-core" style="height: 0%;"></div>
+            </div>
+            
+            <!-- Information Grid -->
+            <div class="mt-12 grid grid-cols-3 gap-4 w-full max-w-md">
+                <div class="glass-stat p-6 rounded-[2.5rem] text-center">
+                    <p class="text-[10px] text-gray-500 uppercase font-bold tracking-widest mb-1">Intake</p>
+                    <p class="text-2xl font-black"><span id="intake-val">0</span><span class="text-xs text-gray-500 ml-1">ml</span></p>
                 </div>
-                
-                <!-- Stats -->
-                <div class="flex space-x-8">
-                    <div class="text-center">
-                        <p class="text-[10px] text-gray-500 uppercase tracking-widest mb-1">Intake</p>
-                        <p class="font-bold text-lg"><span id="intake-display">250</span><span class="text-xs ml-1 font-normal text-gray-400">ml</span></p>
-                    </div>
-                    <div class="text-center border-x border-gray-800 px-8">
-                        <p class="text-[10px] text-gray-500 uppercase tracking-widest mb-1">Goal</p>
-                        <p class="font-bold text-lg">2000<span class="text-xs ml-1 font-normal text-gray-400">ml</span></p>
-                    </div>
-                    <div class="text-center">
-                        <p class="text-[10px] text-gray-500 uppercase tracking-widest mb-1">Status</p>
-                        <p id="status-display" class="font-bold text-lg text-orange-400">Dehydrated</p>
-                    </div>
+                <div class="glass-stat p-6 rounded-[2.5rem] text-center border-x border-white/10">
+                    <p class="text-[10px] text-gray-500 uppercase font-bold tracking-widest mb-1">Goal</p>
+                    <p class="text-2xl font-black">2000</p>
+                </div>
+                <div class="glass-stat p-6 rounded-[2.5rem] text-center">
+                    <p class="text-[10px] text-gray-500 uppercase font-bold tracking-widest mb-1">Status</p>
+                    <p id="status-val" class="text-lg font-black text-gray-500 uppercase">Empty</p>
                 </div>
             </div>
         </div>
     </main>
 
     <script>
-        let currentIntake = 250;
+        let currentIntake = 0;
         const goal = 2000;
+        let isLocked = false;
 
-        function drinkWater() {
-            if (currentIntake < goal) {
-                currentIntake += 250;
-                updateUI();
-            }
-        }
+        function sipWater() {
+            if (isLocked) return;
 
-        function updateUI() {
-            // Calculate percentage
-            const percentage = (currentIntake / goal) * 100;
+            currentIntake += 250;
             
-            // Update Water Height
-            document.getElementById('water').style.height = percentage + '%';
-            
-            // Update Text
-            document.getElementById('intake-display').innerText = currentIntake;
-            
-            // Update Status Color/Text
-            const status = document.getElementById('status-display');
             if (currentIntake >= goal) {
-                status.innerText = "Hydrated";
-                status.className = "font-bold text-lg text-emerald-400";
-            } else if (currentIntake > 1000) {
-                status.innerText = "Improving";
-                status.className = "font-bold text-lg text-cyan-400";
+                currentIntake = goal;
+                updateDisplay();
+                handleGoalReached();
+            } else {
+                updateDisplay();
             }
         }
 
-        // Initialize
-        updateUI();
+        function updateDisplay() {
+            const percentage = (currentIntake / goal) * 100;
+            const liquid = document.getElementById('liquid');
+            const intakeText = document.getElementById('intake-val');
+            const statusText = document.getElementById('status-val');
+
+            liquid.style.height = percentage + '%';
+            intakeText.innerText = currentIntake;
+
+            // Updating word logic
+            if (currentIntake >= goal) {
+                statusText.innerText = "Hydrated";
+                statusText.className = "text-lg font-black text-emerald-400 uppercase";
+            } else if (currentIntake === 0) {
+                statusText.innerText = "Empty";
+                statusText.className = "text-lg font-black text-gray-500 uppercase";
+            } else {
+                statusText.innerText = "Drinking";
+                statusText.className = "text-lg font-black text-cyan-400 uppercase";
+            }
+        }
+
+        function handleGoalReached() {
+            isLocked = true;
+            const btn = document.getElementById('action-btn');
+            
+            btn.innerText = "Goal Reached!";
+            btn.classList.replace('bg-emerald-500', 'bg-white');
+
+            // Wait 2.5 seconds at full capacity, then empty
+            setTimeout(() => {
+                currentIntake = 0;
+                updateDisplay();
+                
+                // Allow clicking again after the emptying animation finishes (1s)
+                setTimeout(() => {
+                    isLocked = false;
+                    btn.innerText = "Simulate 250ml Sip";
+                    btn.classList.replace('bg-white', 'bg-emerald-500');
+                }, 1000);
+            }, 2500);
+        }
     </script>
 </body>
 </html>
